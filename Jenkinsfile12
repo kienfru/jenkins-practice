@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout your source code from version control
+                git 'https://github.com/dazealot88/jenkins.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Build your application using Maven
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Example deployment command, replace with your actual deployment steps
+               deploy adapters: [tomcat9(credentialsId: 'f65bd700-920d-400f-ad6f-547361e2cd5c', path: '', url: 'http://3.84.200.50:8080/')], contextPath: 'moks', war: '**/*.war'
+            }
+        }
+    }
+}
